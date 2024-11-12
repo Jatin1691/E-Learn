@@ -11,4 +11,10 @@ public class AppConstant {
     public static final String DEFAULT_SORT_BY="title";
 
     public static final String COURSE_BANNER_UPLOAD_DIR="uploads"+ File.separator+ "courses" +File.separator+"banner";
+
+    public static final String ROLE_GUEST="ROLE_GUEST";
+
+    public static final String ROLE_ADMIN="ROLE_ADMIN";
+
+    public static final String Profile_Path="uploads/profile";
 }

@@ -1,14 +1,23 @@
 package com.elearn.app.dtos;
 
+import com.elearn.app.entities.Role;
 import com.elearn.app.entities.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CustomerUserDetail implements UserDetails {
 
     private User user;
+
+    public User getUser(){
+        return user;
+    }
 
     public CustomerUserDetail(User user) {
         this.user = user;
@@ -36,7 +45,12 @@ public class CustomerUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+
+        Set<Role> roles=user.getRoles();
+
+        Set<SimpleGrantedAuthority> authorities=roles.stream().map(role->new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toSet());
+
+        return authorities;
     }
 
     @Override

@@ -5,8 +5,10 @@ import com.elearn.app.dtos.CourseDto;
 import com.elearn.app.dtos.CustomPageResponse;
 import com.elearn.app.dtos.ResourceContentType;
 import com.elearn.app.entities.Course;
+import com.elearn.app.entities.Video;
 import com.elearn.app.exception.ResourceNotFoundException;
 import com.elearn.app.repositories.CourseRepo;
+import com.elearn.app.repositories.VideoRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -32,12 +34,17 @@ public class CourseServiceImpl implements CourseService {
 
     private ModelMapper modelMapper;
 
-    @Autowired
+    private VideoRepo videoRepo;
+
+
     private FileService fileService;
 
-    public CourseServiceImpl(CourseRepo courseRepo, ModelMapper modelMapper) {
+
+    public CourseServiceImpl(CourseRepo courseRepo, ModelMapper modelMapper, VideoRepo videoRepo, FileService fileService) {
         this.courseRepo = courseRepo;
         this.modelMapper = modelMapper;
+        this.videoRepo = videoRepo;
+        this.fileService = fileService;
     }
 
     @Override
@@ -115,6 +122,15 @@ public class CourseServiceImpl implements CourseService {
         resourceContentType.setResource(resource);
         resourceContentType.setContentType(course.getContentType());
         return resourceContentType;
+    }
+
+    @Override
+    public void addVideoToCourse(String courseId, String videoId) {
+      Course course=  courseRepo.findById(courseId).orElseThrow(()->new ResourceNotFoundException("course not found"));
+        Video video=  videoRepo.findById(videoId).orElseThrow(()->new ResourceNotFoundException("Video not found"));
+
+        course.addVideo(video);
+        courseRepo.save(course);
     }
 
     public CourseDto entityToDto(Course course){

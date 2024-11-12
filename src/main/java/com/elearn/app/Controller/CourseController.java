@@ -84,4 +84,14 @@ public class CourseController {
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(resourceContentType.getContentType())).body(resourceContentType.getResource());
     }
+
+    @PostMapping("/{courseId}/video/{videoId}")
+    public ResponseEntity<CustomMessage> addVideoToCourse(@PathVariable String courseId,@PathVariable String videoId){
+        courseService.addVideoToCourse(courseId,videoId);
+        CustomMessage customMessage=new CustomMessage();
+        customMessage.setMessage("video added successfully");
+        customMessage.setSuccess(true);
+
+        return ResponseEntity.ok(customMessage);
+    }
 }

@@ -50,4 +50,13 @@ public class Course {
         categoryList.remove(category);
         category.getCourses().remove(this);
     }
+
+    public void addVideo(Video video){
+        videos.add(video);
+        video.getCourse().addVideo(video);
+    }
+    public void removeVideo(Video video){
+        videos.remove(video);
+        video.getCourse().removeVideo(video);
+    }
 }

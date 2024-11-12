@@ -25,4 +25,6 @@ public interface CourseService {
     public CourseDto saveBanner(MultipartFile file,String courseId) throws IOException;
 
     public ResourceContentType getCourseBannerById(String courseId);
+
+    public void addVideoToCourse(String courseId,String videoId);
 }
